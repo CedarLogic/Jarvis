@@ -49,6 +49,7 @@ void write_to_storage(string tag, int importance=1, string note=null, string lin
 
 }
 
+
 string[] read_lines() {
 	string input = cast(string)std.file.read(filename);
     Appender!(string[]) result;
@@ -77,6 +78,7 @@ void parse_str(string s, ref string tag, ref int importance, ref string note, re
 	tag = tmp[1];
 }
 
+
 string format_importance(int importance) {
 	string imp;
 	switch (importance) {
@@ -101,7 +103,9 @@ string format_importance(int importance) {
 	return imp;
 }
 
+
 void format_out(string tag, int importance, string note, string link, string time ) {
+
 	if(note){
 		write( time ~ "\t" ~ note ~ "\t");
 		write( format_importance( importance ) );
