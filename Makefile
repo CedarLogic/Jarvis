@@ -1,7 +1,7 @@
 TARGET = jarvis
 PREFIX = /usr/local/bin
 
-SRC = jarvis.d
+SRC = jarvis.d header.d
 
 all: jarvis clean
 
