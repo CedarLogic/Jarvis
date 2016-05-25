@@ -117,3 +117,16 @@ void format_out(string tag, int importance, string note, string link, string tim
 		writeln( "\t\n\tTag: " ~ BLUE ~ tag ~ END_COLOR);
 	}
 }
+
+
+void usage(){
+	write("Usage: [options]"
+		"\nOptions:\n"
+		"\t -n \t note\n"
+		"\t -l \t link\n"
+		"\t -i \t importance\n"
+		"\t --tag \t tag\n"
+		"Example:\n"
+		"\t ./prog -n 'Some note' -i 4 --tag 'sometag'\n"
+	);
+}

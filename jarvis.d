@@ -10,27 +10,32 @@ void main(string[] args) {
 	int importance = 1;
 	int read;
 
-	getopt(args, 
-		"note|n", &note, 
-		"link|l", &link, 
-		"tag", &tag, 
-		"i", &importance, 
-		"read|r", &read);
+	try {
+		auto helpInformation = getopt(args, 
+			std.getopt.config.required,
+			"note|n", &note, 
+			std.getopt.config.required,
+			"link|l", &link, 
+			std.getopt.config.required,
+			"tag", &tag, 
+			"i", &importance, 
+			"read|r", &read
+		);
+	}
+	catch(GetOptException e) {
+		usage();
+	}
 
 	if(!read) {
-		if(!note && !link){
-			writefln("\tTell me, What are you thinking of...");
-			return;
-		}
 
 		if(importance > 5 && importance < 0 ) {
-			writefln("Important status need to be in range [1-5]");
+			writefln("Importance status need to be in range [1-5]");
 			return;
 		}
 
 		write_to_storage(tag, importance, note, link);
 	}
-	else {
+	else if(note || link) {
 		string read_note, read_link, read_tag, read_time;
 		int read_imp;
 
@@ -43,5 +48,6 @@ void main(string[] args) {
 			format_out(read_tag, read_imp, read_note, read_link, read_time);
 		}
 	}
+
 	return;
 }
