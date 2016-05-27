@@ -18,7 +18,16 @@ const string config_file = ".config";
 const string response[] = [
 	"As you wish!", 
 	"I live to serve you.", 
-	"Master!"
+	"Master!",
+	"(ﾉ◕ヮ◕)ﾉ",
+	"Windows sucks!",
+	"(͡ ͡° ͜ つ ͡͡°)",
+	"(ﾉ◕ヮ◕)ﾉ*:・ﾟ✧",
+	"(＾▽＾)",
+	"(｡◕‿◕｡)",
+	"｡◕‿‿◕｡",
+	"❤(｡´‿`｡)",
+	"(ノʘ‿ʘ)ノ"
 ];
 
 void main(string[] args) {
@@ -27,8 +36,8 @@ void main(string[] args) {
 	int importance = 1, read;
 	bool version_opt;
 
-	try {
-		auto helpInformation = getopt(args, 
+	try{
+		getopt(args, 
 			"note|n", &note, 
 			"link|l", &link, 
 			"tag", &tag, 
@@ -37,17 +46,8 @@ void main(string[] args) {
 			"version", &version_opt
 		);
 	}
-	catch(GetOptException e) {
-		if(version_opt){
-			writeln("Jarvis assistant v0.1\nCopyright (c) 2016 by Bobrov Kirill");
-			return;
-		}
-		else{
-			usage();
-			return;
-		}
-	}
-	
+	catch(GetOptException){}
+
 	readconfig(config_file);
 
 	if(note || link) {
@@ -60,19 +60,31 @@ void main(string[] args) {
 
 		auto i = uniform(0, response.length);
 		writeln(response[i]);
+
 	}
 	else if(read) {
+
 		string read_note, read_link, read_tag, read_time;
 		int read_imp;
 
 		string [] strs = read_lines(FILENAME);
-		foreach(s; strs) {
+		int num_to_read = read < 0 ? strs.length : read;
+		for(int i = 0; i < num_to_read; i++) {
+			string s = strs[i];
 			if(s == ""){
 				return;
 			}
 			parse_str(s, read_tag, read_imp, read_note, read_link, read_time);
 			format_out(read_tag, read_imp, read_note, read_link, read_time);
 		}
+
 	}
+	else if (version_opt) {
+		writeln("Jarvis assistant v0.1\nCopyright (c) 2016 by Bobrov Kirill");
+	}
+	else {
+		usage();
+	}
+
 	return;
 }

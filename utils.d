@@ -168,6 +168,7 @@ void usage(){
 		"\t -l \t link\n"
 		"\t -i \t importance\n"
 		"\t --tag \t tag\n"
+		"\t -h \t help\n"
 		"Example:\n"
 		"\t ./jarvis -n 'Some note' -i 4 --tag 'sometag'\n"
 	);

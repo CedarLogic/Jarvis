@@ -15,6 +15,8 @@ Currently in development....
 
 ### Config file
 
+Basic config for Jarvis:
+
 ```
 COLOR_SUPPORT:1
 FILENAME:storage
