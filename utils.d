@@ -6,6 +6,10 @@ import std.string;
 import std.array;
 import std.conv;
 import std.algorithm;
+import std.range;
+
+bool COLOR_SUPPORT = false;
+string FILENAME = "storage";
 
 enum {
 	GREEN = "\033[1;32m", 
@@ -20,41 +24,56 @@ enum {
 	FLAG = "🏴"
 }
 
-const string filename = "storage";
-
+/**
+ * Write stuff to storage file.
+ * Throws: WriteException on failure.
+ */
 void write_to_storage(string tag, int importance=1, string note=null, string link=null){
-	File file = File(filename, "a");
+	File file = File(FILENAME, "a");
+	try {
+		DateTime dateTime;
+		dateTime = cast(DateTime)Clock.currTime();
 
-	DateTime dateTime;
-	dateTime = cast(DateTime)Clock.currTime();
+		file.write( dateTime );
+		file.write( ";" );
 
-	file.write( dateTime );
-	file.write( ";" );
+		if(note) {
+			file.write("Str:" ~ note ~ ";");
+		}
+		else if(link) {
+			file.write("Link:" ~ link ~ ";");
+		}
 
-	if(note) {
-		file.write("Str:" ~ note ~ ";");
+		if(importance) {
+			file.write("Importance:" ~ to!string(importance) ~ ";");
+		}
+
+		file.write("Tag:" ~ tag );
+		file.writeln();
 	}
-	else if(link) {
-		file.write("Link:" ~ link ~ ";");
+	catch(FileException e){
+		writeln("Error. Can't write to file.");
 	}
-
-	if(importance) {
-		file.write("Importance:" ~ to!string(importance) ~ ";");
+	finally {
+		file.close();
 	}
-
-	file.write("Tag:" ~ tag );
-	file.writeln();
-	file.close();
-
 }
 
-
-string[] read_lines() {
-	string input = cast(string)std.file.read(filename);
-    Appender!(string[]) result;
-    foreach (line; input.splitter("\n"))
-        result.put(line);
-    return result.data;
+/**
+ * Reads the file.
+ * Returns: The contents of the file in string array.
+ */
+string[] read_lines(string fname) {
+	Appender!(string[]) result;
+	try{
+		string input = cast(string)std.file.read(fname);
+		foreach (line; input.splitter("\n"))
+			result.put(line);
+	}
+	catch (FileException e) {
+		writeln("Error. Bad file");
+	}
+	return result.data;
 }
 
 
@@ -79,25 +98,31 @@ void parse_str(string s, ref string tag, ref int importance, ref string note, re
 
 
 string format_importance(int importance) {
-	string imp;
-	switch (importance) {
-		case 1:
-			imp = FLAG;
-			break;
-		case 2:
-			imp = YELLOW ~ FLAG ~ END_COLOR;
-			break;
-		case 3:
-			imp = CYAN ~ FLAG ~ END_COLOR;
-			break;
-		case 4:
-			imp = MAGENTA ~ FLAG ~ END_COLOR;
-			break;
-		case 5:
-			imp = RED ~ FLAG ~ END_COLOR;
-			break;
-		default:
-			imp = FLAG;
+	string imp = "";
+	if(COLOR_SUPPORT){
+		switch (importance) {
+			case 1:
+				imp = FLAG;
+				break;
+			case 2:
+				imp = YELLOW ~ FLAG ~ END_COLOR;
+				break;
+			case 3:
+				imp = CYAN ~ FLAG ~ END_COLOR;
+				break;
+			case 4:
+				imp = MAGENTA ~ FLAG ~ END_COLOR;
+				break;
+			case 5:
+				imp = RED ~ FLAG ~ END_COLOR;
+				break;
+			default:
+				imp = FLAG;
+		}
+	}
+	else {
+		for(int i = 0; i < importance; i++)
+			imp ~= FLAG;
 	}
 	return imp;
 }
@@ -126,6 +151,30 @@ void usage(){
 		"\t -i \t importance\n"
 		"\t --tag \t tag\n"
 		"Example:\n"
-		"\t ./prog -n 'Some note' -i 4 --tag 'sometag'\n"
+		"\t ./jarvis -n 'Some note' -i 4 --tag 'sometag'\n"
 	);
+}
+
+
+/*
+	Read config file
+*/
+void readconfig(string fname){
+	string config [];
+	try {
+		config = read_lines(fname);
+	}
+	catch (FileException e) {
+		writeln("Error. Bad config file");
+		return;
+	}
+	for(int i; i < config.length; i++) {
+		string tmp[] = split(config[i], ":");
+		if(tmp.length > 1 && tmp[0] == "COLOR_SUPPORT") {
+			COLOR_SUPPORT = (tmp[1] == "1" ? true:false);
+		}
+		else if(tmp.length > 1 && tmp[0] == "FILENAME") {
+			FILENAME = tmp[1];
+		}
+	}
 }

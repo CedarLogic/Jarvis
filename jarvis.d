@@ -10,6 +10,8 @@ const string response[] = [
 	"Master!"
 ];
 
+string filename = "storage";
+string config_file = ".config";
 
 void main(string[] args) {
 
@@ -19,10 +21,8 @@ void main(string[] args) {
 
 	try {
 		auto helpInformation = getopt(args, 
-			std.getopt.config.required,
 			"note|n", &note, 
 			"link|l", &link, 
-			std.getopt.config.required,
 			"tag", &tag, 
 			"i", &importance, 
 			"read|r", &read,
@@ -39,6 +39,7 @@ void main(string[] args) {
 			return;
 		}
 	}
+	readconfig(config_file);
 
 	if(note || link) {
 		if(importance > 5 || importance < 0 ) {
@@ -55,7 +56,7 @@ void main(string[] args) {
 		string read_note, read_link, read_tag, read_time;
 		int read_imp;
 
-		string [] strs = read_lines();
+		string [] strs = read_lines(FILENAME);
 		foreach(s; strs) {
 			if(s == ""){
 				return;
