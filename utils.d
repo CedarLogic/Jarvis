@@ -1,4 +1,4 @@
-module header;
+module utils;
 import std.stdio;
 import std.file;
 import std.datetime;
@@ -20,8 +20,7 @@ enum {
 	FLAG = "🏴"
 }
 
-
-string filename = "storage";
+const string filename = "storage";
 
 void write_to_storage(string tag, int importance=1, string note=null, string link=null){
 	File file = File(filename, "a");

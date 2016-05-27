@@ -1,41 +1,57 @@
 module main;
 import std.stdio;
 import std.getopt;
-import header;
+import std.random;
+import utils;
+
+const string response[] = [
+	"As you wish!", 
+	"I live to serve you.", 
+	"Master!"
+];
 
 
 void main(string[] args) {
 
 	string note, link, tag;
-	int importance = 1;
-	int read;
+	int importance = 1, read;
+	bool version_opt;
 
 	try {
 		auto helpInformation = getopt(args, 
 			std.getopt.config.required,
 			"note|n", &note, 
-			std.getopt.config.required,
 			"link|l", &link, 
 			std.getopt.config.required,
 			"tag", &tag, 
 			"i", &importance, 
-			"read|r", &read
+			"read|r", &read,
+			"version", &version_opt
 		);
 	}
 	catch(GetOptException e) {
-		usage();
+		if(version_opt){
+			writeln("Jarvis assistant v0.1\nCopyright (c) 2016 by Bobrov Kirill");
+			return;
+		}
+		else{
+			usage();
+			return;
+		}
 	}
 
-	if(!read) {
-
-		if(importance > 5 && importance < 0 ) {
-			writefln("Importance status need to be in range [1-5]");
+	if(note || link) {
+		if(importance > 5 || importance < 0 ) {
+			writeln("Importance status need to be in range [1-5]");
 			return;
 		}
 
 		write_to_storage(tag, importance, note, link);
+
+		auto i = uniform(0, response.length);
+		writeln(response[i]);
 	}
-	else if(note || link) {
+	else if(read) {
 		string read_note, read_link, read_tag, read_time;
 		int read_imp;
 
@@ -48,6 +64,5 @@ void main(string[] args) {
 			format_out(read_tag, read_imp, read_note, read_link, read_time);
 		}
 	}
-
 	return;
 }
