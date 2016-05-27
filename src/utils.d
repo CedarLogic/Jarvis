@@ -1,13 +1,3 @@
-/***********************************
- * Brief summary of what
- * myfunc does, forming the summary section.
- *
- * First paragraph of synopsis description.
- *
- * Second paragraph of
- * synopsis description.
- */
-
 module utils;
 import std.stdio;
 import std.file;
@@ -21,7 +11,7 @@ import std.range;
 /** color formatting in terminal if it has color support */
 bool COLOR_SUPPORT = false;
 /** storage name where all information will be stored */
-string FILENAME = "storage";
+string FILENAME = ".storage";
 
 enum {
 	GREEN = "\033[1;32m", 
@@ -167,7 +157,7 @@ void usage(){
 		"\t --tag \t tag\n"
 		"\t -h \t help\n"
 		"Example:\n"
-		"\t ./jarvis -n 'Some note' -i 4 --tag 'sometag'\n"
+		"\t$ jarvis -n 'Some note' -i 4 --tag 'sometag'\n"
 	);
 }
 
@@ -185,8 +175,9 @@ void readconfig(string fname){
 		writeln("Error. Bad config file");
 		return;
 	}
-	for(int i; i < config.length; i++) {
-		string tmp[] = split(config[i], ":");
+
+	foreach(s; config) {
+		string tmp[] = split(s, ":");
 		if(tmp.length > 1 && tmp[0] == "COLOR_SUPPORT") {
 			COLOR_SUPPORT = (tmp[1] == "1" ? true:false);
 		}

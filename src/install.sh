@@ -5,4 +5,5 @@ if [ ! -d ~/.config/jarvis ]; then
 fi
 
 # copy basic config file to /home/user/.config/jarvis/.config
-cp .config ~/.config/jarvis/
+cp ../.config ~/.config/jarvis/
+touch ~/.storage
