@@ -1,3 +1,13 @@
+/***********************************
+ * Brief summary of what
+ * myfunc does, forming the summary section.
+ *
+ * First paragraph of synopsis description.
+ *
+ * Second paragraph of
+ * synopsis description.
+ */
+
 module utils;
 import std.stdio;
 import std.file;
@@ -8,7 +18,9 @@ import std.conv;
 import std.algorithm;
 import std.range;
 
+/** color formatting in terminal if it has color support */
 bool COLOR_SUPPORT = false;
+/** storage name where all information will be stored */
 string FILENAME = "storage";
 
 enum {
@@ -26,7 +38,7 @@ enum {
 
 /**
  * Write stuff to storage file.
- * Throws: WriteException on failure.
+ * Throws: FileException on failure.
  */
 void write_to_storage(string tag, int importance=1, string note=null, string link=null){
 	File file = File(FILENAME, "a");
@@ -96,7 +108,10 @@ void parse_str(string s, ref string tag, ref int importance, ref string note, re
 	tag = tmp[1];
 }
 
-
+/**
+ * Format importance
+ * Returns: formatted string 
+ */
 string format_importance(int importance) {
 	string imp = "";
 	if(COLOR_SUPPORT){
@@ -127,9 +142,10 @@ string format_importance(int importance) {
 	return imp;
 }
 
-
+/**
+ * Output note/link to terminal
+ */
 void format_out(string tag, int importance, string note, string link, string time ) {
-
 	if(note){
 		write( time ~ "\t" ~ note ~ "\t");
 		write( format_importance( importance ) );
@@ -142,7 +158,9 @@ void format_out(string tag, int importance, string note, string link, string tim
 	}
 }
 
-
+/**
+ * Basic program usage
+ */
 void usage(){
 	write("Usage: [options]"
 		"\nOptions:\n"
@@ -156,9 +174,10 @@ void usage(){
 }
 
 
-/*
-	Read config file
-*/
+/**
+ * Read config file
+ * Throws: FileException on failure.
+ */
 void readconfig(string fname){
 	string config [];
 	try {

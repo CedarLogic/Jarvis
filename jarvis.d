@@ -1,17 +1,25 @@
+/***********************************
+ * Jarvis is a command line notebook written on D language
+ *
+ * Author:
+ * Bobrov Kirill <miaplanedo@gmail.com>
+ * (c) 2016
+ */
+
 module main;
 import std.stdio;
 import std.getopt;
 import std.random;
 import utils;
 
+/** config file path */
+const string config_file = ".config";
+/** jarvis response to your actions. Random choice */
 const string response[] = [
 	"As you wish!", 
 	"I live to serve you.", 
 	"Master!"
 ];
-
-string filename = "storage";
-string config_file = ".config";
 
 void main(string[] args) {
 
@@ -39,6 +47,7 @@ void main(string[] args) {
 			return;
 		}
 	}
+	
 	readconfig(config_file);
 
 	if(note || link) {
