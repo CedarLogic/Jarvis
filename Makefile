@@ -1,7 +1,7 @@
 TARGET = jarvis
 PREFIX = /usr/local/bin
 
-SRC = jarvis.d header.d
+SRC = jarvis.d utils.d
 
 all: jarvis clean
 
@@ -12,6 +12,7 @@ clean:
 	rm -rf *.o
 
 install:
+	./install.sh
 	install $(TARGET) $(PREFIX)
 
 uninstall:
