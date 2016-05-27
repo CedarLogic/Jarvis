@@ -11,8 +11,8 @@ Version v0.1 ready
 ### Installation
 
 ```bash
-	$ make
-	$ sudo make install
+$ make
+$ sudo make install
 ```
 
 ### Usage 
@@ -39,7 +39,7 @@ $ jarvis -r -1
 
 Preview:
 
-![preview](https://cloud.githubusercontent.com/assets/9168534/15603728/7a6db4ae-240d-11e6-9b72-43b27e161978.gif)
+![preview](demo.gif)
 
 
 ### Config file
