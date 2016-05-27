@@ -80,7 +80,9 @@ string[] read_lines(string fname) {
 	try{
 		string input = cast(string)std.file.read(fname);
 		foreach (line; input.splitter("\n"))
-			result.put(line);
+			if(line != ""){
+				result.put(line);
+			}
 	}
 	catch (FileException e) {
 		writeln("Error. Bad file");
@@ -149,12 +151,12 @@ void format_out(string tag, int importance, string note, string link, string tim
 	if(note){
 		write( time ~ "\t" ~ note ~ "\t");
 		write( format_importance( importance ) );
-		writeln( "\t\n\tTag: " ~ BLUE ~ tag ~ END_COLOR);
+		writeln( "\t\n\t🏷: " ~ BLUE ~ tag ~ END_COLOR);
 	}
 	else {
 		write( time ~ "\t" ~ link ~ "\t");
 		write( format_importance( importance ) );
-		writeln( "\t\n\tTag: " ~ BLUE ~ tag ~ END_COLOR);
+		writeln( "\t\n\t🏷: " ~ BLUE ~ tag ~ END_COLOR);
 	}
 }
 

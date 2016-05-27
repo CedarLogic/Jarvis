@@ -67,8 +67,8 @@ void main(string[] args) {
 		string read_note, read_link, read_tag, read_time;
 		int read_imp;
 
-		string [] strs = read_lines(FILENAME);
-		int num_to_read = read < 0 ? strs.length : read;
+		string [] strs = read_lines(FILENAME).reverse;
+		int num_to_read = read < 0 || read > strs.length ? strs.length : read;
 		for(int i = 0; i < num_to_read; i++) {
 			string s = strs[i];
 			if(s == ""){
