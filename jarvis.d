@@ -8,12 +8,12 @@
 
 module main;
 import std.stdio;
+import std.file;
+import std.path;
 import std.getopt;
 import std.random;
 import utils;
 
-/** config file path */
-const string config_file = ".config";
 /** jarvis response to your actions. Random choice */
 const string response[] = [
 	"As you wish!", 
@@ -32,6 +32,9 @@ const string response[] = [
 
 void main(string[] args) {
 
+	/** config file path */
+	const string config_file = expandTilde("~/.config/jarvis/.config");
+	
 	string note, link, tag;
 	int importance = 1, read;
 	bool version_opt;
@@ -66,8 +69,15 @@ void main(string[] args) {
 
 		string read_note, read_link, read_tag, read_time;
 		int read_imp;
+		string [] strs;
 
-		string [] strs = read_lines(FILENAME).reverse;
+		try{
+			strs = read_lines(FILENAME).reverse;
+		}
+		catch (FileException e) {
+			writeln("Error. Bad file");
+		}
+
 		int num_to_read = read < 0 || read > strs.length ? strs.length : read;
 		for(int i = 0; i < num_to_read; i++) {
 			string s = strs[i];

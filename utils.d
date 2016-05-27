@@ -77,16 +77,11 @@ void write_to_storage(string tag, int importance=1, string note=null, string lin
  */
 string[] read_lines(string fname) {
 	Appender!(string[]) result;
-	try{
-		string input = cast(string)std.file.read(fname);
-		foreach (line; input.splitter("\n"))
-			if(line != ""){
-				result.put(line);
-			}
-	}
-	catch (FileException e) {
-		writeln("Error. Bad file");
-	}
+	string input = cast(string)std.file.read(fname);
+	foreach (line; input.splitter("\n"))
+		if(line != ""){
+			result.put(line);
+		}
 	return result.data;
 }
 
