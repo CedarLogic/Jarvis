@@ -4,6 +4,17 @@ command line notebook written on D language
 
 Version v0.1 ready
 
+### Preview
+
+No it's not looks like this:
+
+![gif](https://31.media.tumblr.com/e729c9426b57af9cfe9fdb367493d19b/tumblr_mho9nv06bZ1ra5vgio1_250.gif)
+
+It looks like this:
+
+![preview](demo.gif)
+
+
 ### Dependencies
 
 * [DMD compiller >= 2.071.0](https://dlang.org/download.html)
@@ -36,11 +47,6 @@ To read all notes (latest first) specify ```-r``` less than zero:
 ```bash
 $ jarvis -r -1 
 ```
-
-Preview:
-
-![preview](demo.gif)
-
 
 ### Config file
 
