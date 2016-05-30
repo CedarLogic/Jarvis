@@ -6,7 +6,7 @@ Version v0.1 ready
 
 ### Preview
 
-No it's not looks like this:
+No, it's not looks like this:
 
 ![gif](https://31.media.tumblr.com/e729c9426b57af9cfe9fdb367493d19b/tumblr_mho9nv06bZ1ra5vgio1_250.gif)
 
