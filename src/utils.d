@@ -40,20 +40,22 @@ void write_to_storage(string tag, int importance=1, string note=null, string lin
 		file.write( ";" );
 
 		if(note) {
-			file.write("Str:" ~ note ~ ";");
+			file.write("Str&" ~ note ~ ";");
 		}
 		else if(link) {
-			file.write("Link:" ~ link ~ ";");
+			file.write("Link&" ~ link ~ ";");
 		}
 
 		if(importance) {
-			file.write("Importance:" ~ to!string(importance) ~ ";");
+			file.write("Importance&" ~ to!string(importance) ~ ";");
 		}
-
-		file.write("Tag:" ~ tag );
+		if(tag == ""){
+			tag = "Other";
+		}
+		file.write("Tag&" ~ tag );
 		file.writeln();
 	}
-	catch(FileException e){
+	catch(FileException e) {
 		writeln("Error. Can't write to file.");
 	}
 	finally {
@@ -79,7 +81,7 @@ string[] read_lines(string fname) {
 void parse_str(string s, ref string tag, ref int importance, ref string note, ref string link, ref string time ) {
 	string [] arr = split(s, ";");
 	time = arr[0];
-	string [] tmp = split(arr[1], ":");
+	string [] tmp = split(arr[1], "&");
 	if(tmp[0] == "Str") {
 		note = tmp[1];
 	}
@@ -87,11 +89,11 @@ void parse_str(string s, ref string tag, ref int importance, ref string note, re
 		link = tmp[1];
 	}
 	// importance
-	tmp = split(arr[2], ":");
+	tmp = split(arr[2], "&");
 	importance = to!int(tmp[1]);
 
 	// tag
-	tmp = split(arr[3], ":");
+	tmp = split(arr[3], "&");
 	tag = tmp[1];
 }
 
@@ -178,8 +180,9 @@ void readconfig(string fname){
 
 	foreach(s; config) {
 		string tmp[] = split(s, ":");
+
 		if(tmp.length > 1 && tmp[0] == "COLOR_SUPPORT") {
-			COLOR_SUPPORT = (tmp[1] == "1" ? true:false);
+			COLOR_SUPPORT = (tmp[1] == "1" ? true : false);
 		}
 		else if(tmp.length > 1 && tmp[0] == "FILENAME") {
 			FILENAME = tmp[1];

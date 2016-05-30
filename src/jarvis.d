@@ -39,7 +39,7 @@ void main(string[] args) {
 	int importance = 1, read;
 	bool version_opt;
 
-	try{
+	try {
 		getopt(args, 
 			"note|n", &note, 
 			"link|l", &link, 
@@ -71,7 +71,7 @@ void main(string[] args) {
 		int read_imp;
 		string [] strs;
 
-		try{
+		try {
 			strs = read_lines(FILENAME).reverse;
 		}
 		catch (FileException e) {
@@ -81,7 +81,7 @@ void main(string[] args) {
 		int num_to_read = read < 0 || read > strs.length ? strs.length : read;
 		for(int i = 0; i < num_to_read; i++) {
 			string s = strs[i];
-			if(s == ""){
+			if(s == "") {
 				return;
 			}
 			parse_str(s, read_tag, read_imp, read_note, read_link, read_time);
